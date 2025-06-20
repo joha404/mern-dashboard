@@ -1,24 +1,31 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { FiCheckCircle, FiX } from "react-icons/fi";
 import PrimaryButton from "../common/PrimaryButton";
+import { UpdateTheCategory } from "@/api/category";
 
-function UpdateCategory({ item, onClose }) {
+function UpdateCategory({ item, onClose, refreshCategories }) {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-  });
   const [previewUrl, setPreviewUrl] = useState(null);
 
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { isSubmitting },
+  } = useForm();
+
+  const imageWatch = watch("image");
+
   useEffect(() => {
-    // Prefill form with item values
     if (item) {
-      setFormData({
-        title: item.title || "",
-        description: item.description || "",
-      });
+      setValue("name", item.name || "");
+      setValue("description", item.description || "");
+      setPreviewUrl(item.image || null);
     }
 
     return () => {
@@ -26,44 +33,32 @@ function UpdateCategory({ item, onClose }) {
         URL.revokeObjectURL(previewUrl);
       }
     };
-  }, [item]);
+  }, [item, setValue]);
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === "image" && files && files[0]) {
-      const file = files[0];
-      setFormData((prev) => ({ ...prev, image: file }));
+  useEffect(() => {
+    if (imageWatch && imageWatch.length > 0) {
+      const file = imageWatch[0];
       setPreviewUrl(URL.createObjectURL(file));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
     }
-  };
+  }, [imageWatch]);
 
-  const UpdatePiks = async () => {
+  const onSubmit = async (formData) => {
     try {
       setIsLoading(true);
       const data = new FormData();
-      data.append("title", formData.title);
+      data.append("name", formData.name);
       data.append("description", formData.description);
-
-      // await UpdateTheCategory(data, item._id);
-      // refetchHeroContent();
+      if (formData.image?.[0]) {
+        data.append("image", formData.image[0]);
+      }
+      await UpdateTheCategory(data, item._id);
+      refreshCategories();
       setShowSuccessModal(true);
     } catch (error) {
-      console.error("Error updating hotpiks:", error);
+      console.error("Error updating category:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSuccessConfirm = () => {
-    setShowSuccessModal(false);
-    onClose();
-  };
-
-  const handleModalClose = () => {
-    setShowSuccessModal(false);
   };
 
   return (
@@ -74,42 +69,57 @@ function UpdateCategory({ item, onClose }) {
         animate={{ opacity: 1 }}
         className="p-4 rounded-lg space-y-4"
       >
-        <h1 className="text-center text-2xl font-semibold">Update HotPiks</h1>
+        <h1 className="text-center text-2xl font-semibold">Update Category</h1>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Title
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="Category Title"
-            className="w-full p-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-dark text-gray-800 placeholder-gray-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Description
-          </label>
-          <input
-            type="text"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Category Description"
-            className="w-full p-2 border border-gray-300 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-dark text-gray-800 placeholder-gray-500"
-          />
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              {...register("name", { required: true })}
+              placeholder="Category name"
+              className="w-full p-2 border border-gray-300 bg-gray-50 rounded-lg"
+            />
+          </div>
 
-        <div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Description
+            </label>
+            <input
+              type="text"
+              {...register("description")}
+              placeholder="Category description"
+              className="w-full p-2 border border-gray-300 bg-gray-50 rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Image
+            </label>
+            <input
+              type="file"
+              {...register("image")}
+              className="w-full p-2 border border-gray-300 bg-gray-50 rounded-lg"
+            />
+            {previewUrl && (
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="mt-2 w-32 h-32 object-cover rounded-lg"
+              />
+            )}
+          </div>
+
           <PrimaryButton
-            isSubmitting={isLoading}
-            text={"Save Changes"}
-            onClik={UpdatePiks}
+            type="submit"
+            isSubmitting={isSubmitting || isLoading}
+            text="Save Changes"
           />
-        </div>
+        </form>
       </motion.div>
 
       {/* Success Modal */}
@@ -124,8 +134,8 @@ function UpdateCategory({ item, onClose }) {
               className="relative bg-white rounded-2xl border border-gray-200 shadow-xl overflow-hidden w-full max-w-md"
             >
               <button
-                onClick={handleModalClose}
-                className="absolute top-4 right-4 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-all"
+                onClick={() => setShowSuccessModal(false)}
+                className="absolute top-4 right-4 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700"
               >
                 <FiX size={18} />
               </button>
@@ -137,18 +147,20 @@ function UpdateCategory({ item, onClose }) {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-1">
-                      Hero Content Updated
+                      Category Updated
                     </h3>
                     <p className="text-sm text-gray-600">
-                      Your Hero Section Information has been successfully
-                      updated.
+                      Your category information has been successfully updated.
                     </p>
                   </div>
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3 border-t border-gray-200">
                   <motion.button
-                    onClick={handleSuccessConfirm}
+                    onClick={() => {
+                      setShowSuccessModal(false);
+                      onClose();
+                    }}
                     className="px-5 py-2.5 text-sm font-medium rounded-lg bg-green-600 hover:bg-green-700 text-white flex items-center gap-2 transition-colors"
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.98 }}

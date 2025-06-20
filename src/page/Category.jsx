@@ -6,6 +6,7 @@ import PrimaryButton from "@/components/common/PrimaryButton";
 import UpdateCategory from "@/components/Operation/UpdateCategory";
 import AddCategory from "@/components/Operation/AddCategory";
 import { BiSolidError } from "react-icons/bi";
+import { deleteSelectedCategory, getAllCategory } from "@/api/category";
 
 const Category = () => {
   const [loading, setLoading] = useState(true);
@@ -17,71 +18,22 @@ const Category = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [category, setCategory] = useState([]);
 
-  const category = [
-    {
-      id: 1,
-      title: "Electronics",
-      description:
-        "Devices and gadgets including smartphones, laptops, and accessories.",
-      date: "2025-06-18",
-    },
-    {
-      id: 2,
-      title: "Fashion",
-      description:
-        "Apparel, footwear, and accessories for men, women, and kids.",
-      date: "2025-06-18",
-    },
-    {
-      id: 3,
-      title: "Home & Kitchen",
-      description: "Furniture, appliances, cookware, and home decor items.",
-      date: "2025-06-18",
-    },
-    {
-      id: 4,
-      title: "Books",
-      description:
-        "Wide range of fiction, non-fiction, educational, and children's books.",
-      date: "2025-06-18",
-    },
-    {
-      id: 5,
-      title: "Beauty & Personal Care",
-      description: "Skincare, haircare, makeup, and wellness products.",
-      date: "2025-06-18",
-    },
-    {
-      id: 6,
-      title: "Sports & Outdoors",
-      description:
-        "Equipment and gear for fitness, outdoor adventures, and team sports.",
-      date: "2025-06-18",
-    },
-    {
-      id: 7,
-      title: "Toys & Games",
-      description: "Games, puzzles, and toys for kids of all ages.",
-      date: "2025-06-18",
-    },
-  ];
+  const fetchCategory = async () => {
+    try {
+      const response = await getAllCategory();
+      setCategory(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch category:", error);
+      setLoading(false);
+    }
+  };
 
-  // const fetchCategory = async () => {
-  //   try {
-  //     const response = await getAllCategories();
-  //     console.log(response.data.data.categories);
-  //     setCategory(response.data.data.categories);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Failed to fetch category:", error);
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchCategory();
-  // }, []);
+  useEffect(() => {
+    fetchCategory();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -104,27 +56,26 @@ const Category = () => {
     setaddCategory(false);
   };
 
-  const deleteCategory = (id) => {
-    setSelectedId(id);
-    setShowDeleteModal(true);
-  };
-
   const editingModalClose = () => {
     setIsEditing(false);
   };
 
+  const deleteCategory = (id) => {
+    setSelectedId(id);
+    setShowDeleteModal(true);
+  };
   const handleDeleteConfirm = async () => {
-    if (!selectedId) return;
-
     try {
+      if (!selectedId) return;
       setIsLoading(true);
-      console.log(selectedId);
+      await deleteSelectedCategory(selectedId);
+      fetchCategory();
       setShowDeleteModal(false);
       setSelectedId(null);
-      console.log(response);
-      setIsLoading(false);
     } catch (error) {
-      console.log("Failed to delete category", error);
+      console.error("Failed to delete category:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -179,7 +130,7 @@ const Category = () => {
         onDelete={deleteCategory}
         onUpdate={handleUpdate}
         allCategories={category.filter((item) =>
-          item?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+          item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
         )}
       />
 
@@ -203,7 +154,10 @@ const Category = () => {
                 </button>
               </div>
 
-              <AddCategory onClose={addHotPickModalClose} />
+              <AddCategory
+                onClose={addHotPickModalClose}
+                refreshCategories={fetchCategory}
+              />
             </motion.div>
           </div>
         )}
@@ -285,8 +239,8 @@ const Category = () => {
 
               <UpdateCategory
                 onClose={editingModalClose}
-                item={category}
-                // refetchHeroContent={fetchCategory}
+                item={editingItem}
+                refreshCategories={fetchCategory}
               />
             </motion.div>
           </div>

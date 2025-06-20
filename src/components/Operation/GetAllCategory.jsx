@@ -5,12 +5,12 @@ import { GoTrash } from "react-icons/go";
 
 function GetAllCategory({ allCategories, onUpdate, onDelete }) {
   const loading = false;
-
   return (
     <div className="overflow-x-auto mt-10 rounded shadow bg-white">
       <table className="min-w-full table-auto border-collapse">
         <thead className="bg-gray-100 text-gray-700 hidden sm:table-header-group">
           <tr>
+            <th className="py-3 px-4 text-center font-semibold">Images</th>
             <th className="py-3 px-4 text-center font-semibold">Title</th>
             <th className="py-3 px-4 text-center font-semibold">Description</th>
             <th className="py-3 px-4 text-center font-semibold">Date</th>
@@ -46,9 +46,13 @@ function GetAllCategory({ allCategories, onUpdate, onDelete }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: index * 0.05 }}
               >
+                <td className="py-2 sm:p-4 text-sm sm:text-base h-[100px] w-[100px] ">
+                  <span className="block font-semibold sm:hidden">Image:</span>
+                  <img src={item.image} alt="" className="h-full w-full" />
+                </td>
                 <td className="py-2 sm:p-4 text-sm sm:text-base">
                   <span className="block font-semibold sm:hidden">Title:</span>
-                  {item.title}
+                  {item.name}
                 </td>
                 <td className="py-2 sm:p-4 text-sm sm:text-base">
                   <span className="block font-semibold sm:hidden">
@@ -58,20 +62,20 @@ function GetAllCategory({ allCategories, onUpdate, onDelete }) {
                 </td>
                 <td className="py-2 sm:p-4 text-sm sm:text-base">
                   <span className="block font-semibold sm:hidden">Date:</span>
-                  {item.date}
+                  7262
                 </td>
                 <td className="py-2 sm:p-4">
                   <div className="flex sm:justify-center gap-4 text-lg">
                     <button
                       onClick={() => onUpdate(item)}
-                      className="hover:text-green-500"
+                      className="hover:text-green-500 cursor-pointer"
                       aria-label="Edit"
                     >
                       <FiEdit />
                     </button>
                     <button
-                      onClick={() => onDelete(item.id)}
-                      className="hover:text-red-500"
+                      onClick={() => onDelete(item._id)}
+                      className="hover:text-red-500 cursor-pointer"
                       aria-label="Delete"
                     >
                       <GoTrash />
