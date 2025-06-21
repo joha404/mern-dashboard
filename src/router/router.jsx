@@ -5,6 +5,7 @@ import Products from "@/page/Products";
 import ManagUsers from "@/page/ManageUsers";
 import Orders from "@/page/Orders";
 import Category from "@/page/Category";
+import ProductDetails from "@/page/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -31,11 +32,15 @@ const router = createBrowserRouter([
         path: "/category",
         element: <Category />,
       },
+      {
+        path: "/products/:id",
+        element: <ProductDetails />,
+      },
     ],
   },
   {
     path: "*",
-    element: () => <h1>Page Not Found</h1>,
+    element: <h1>Page Not Found</h1>,
   },
 ]);
 

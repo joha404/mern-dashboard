@@ -5,13 +5,14 @@ export default function PrimaryButton({
   text,
   onClik,
   customWidth = "w-full",
+  className,
 }) {
   return (
     <button
       onClick={onClik}
       type="submit"
       disabled={isSubmitting}
-      className={`${customWidth} py-2 cursor-pointer px-4 rounded-lg bg-gradient-to-r from-[#6c6afa] to-[#432dd7] hover:from-[#432dd7]
+      className={`${customWidth} ${className} py-2 cursor-pointer px-4 rounded-lg bg-gradient-to-r from-[#6c6afa] to-[#432dd7] hover:from-[#432dd7]
                                        hover:to-[#5250d7] text-white font-medium shadow-lg hover:shadow-black/30 transition-all duration-300 flex items-center justify-center
                                        ${
                                          isSubmitting

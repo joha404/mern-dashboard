@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function FileInput({ register }) {
-  const [fileName, setFileName] = useState("No file chosen");
+  const [fileNames, setFileNames] = useState("No files chosen");
 
   return (
     <div className="w-full">
@@ -28,15 +28,18 @@ function FileInput({ register }) {
             d="M7 12l5 5 5-5"
           />
         </svg>
-        <span>{fileName}</span>
+        <span className="truncate">{fileNames}</span>
       </label>
       <input
         id="image-upload"
         type="file"
+        multiple
         {...register("image")}
-        onChange={(e) =>
-          setFileName(e.target.files[0]?.name || "No file chosen")
-        }
+        onChange={(e) => {
+          const files = Array.from(e.target.files);
+          const names = files.map((f) => f.name).join(", ");
+          setFileNames(names || "No files chosen");
+        }}
         className="hidden"
       />
     </div>
