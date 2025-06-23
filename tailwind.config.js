@@ -11,10 +11,10 @@ export default {
         para: "#64748B",
         muted: "#94A3B8",
         primary: {
-          DEFAULT: "#6c6afa",
-          hover: "#5250d7",
+          DEFAULT: "#7c7afa",
+          hover: "#4745d5",
           light: "#EFF6FF",
-          dark: "#432dd7",
+          dark: "#100462",
         },
         accent: {
           DEFAULT: "#10B981",

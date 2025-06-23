@@ -1,27 +1,32 @@
-import React from "react";
+import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
-export default function PrimaryButton({
-  isSubmitting,
-  text,
-  onClik,
-  customWidth = "w-full",
-  className,
-}) {
+const PrimaryButton = ({
+  isSubmitting = false,
+  type = "submit",
+  onClick,
+  children = "Sign in",
+  className = "",
+}) => {
   return (
-    <button
-      onClick={onClik}
-      type="submit"
-      disabled={isSubmitting}
-      className={`${customWidth} ${className} py-2 cursor-pointer px-4 rounded-lg bg-gradient-to-r from-[#6c6afa] to-[#432dd7] hover:from-[#432dd7]
-                                       hover:to-[#5250d7] text-white font-medium shadow-lg hover:shadow-black/30 transition-all duration-300 flex items-center justify-center
-                                       ${
-                                         isSubmitting
-                                           ? "opacity-80 cursor-not-allowed"
-                                           : ""
-                                       }`}
+    <motion.div
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.4, duration: 0.5 }}
+      whileHover={{ scale: 1 }}
+      whileTap={{ scale: 0.95 }}
     >
-      {isSubmitting ? (
-        <>
+      <button
+        type={type}
+        disabled={isSubmitting}
+        onClick={onClick}
+        className={`w-full min-w-[100px] py-3 px-4 rounded-lg
+           bg-gradient-to-r from-primary to-[#4745d5] text-white hover:from-primary-hover hover:to-primary 
+           font-medium shadow-lg hover:shadow-black/30 flex items-center justify-center ${
+             isSubmitting ? "opacity-80 cursor-not-allowed" : ""
+           }${className}`}
+      >
+        {isSubmitting ? (
           <svg
             className="animate-spin -ml-1 mr-2 h-6 w-6 text-white"
             xmlns="http://www.w3.org/2000/svg"
@@ -42,10 +47,20 @@ export default function PrimaryButton({
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-        </>
-      ) : (
-        <p>{text}</p>
-      )}
-    </button>
+        ) : (
+          children
+        )}
+      </button>
+    </motion.div>
   );
-}
+};
+
+PrimaryButton.propTypes = {
+  type: PropTypes.string,
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  isSubmitting: PropTypes.bool,
+  children: PropTypes.node,
+};
+
+export default PrimaryButton;

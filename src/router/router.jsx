@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "@/layout/RootLayout";
-import Dashboard from "@/page/Dashboard";
 import Products from "@/page/Products";
-import ManagUsers from "@/page/ManageUsers";
 import Orders from "@/page/Orders";
 import Category from "@/page/Category";
 import ProductDetails from "@/page/ProductDetails";
+import ManageUsers from "@/page/ManageUsers/ManageUsers";
+import UserInfo from "@/page/ManageUsers/UserInfo";
+import LandingPage from "@/page/LandingPage/LandingPage";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Dashboard />,
+        element: <LandingPage />,
       },
       {
         path: "/products",
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/manag-users",
-        element: <ManagUsers />,
+        element: <ManageUsers />,
+      },
+      {
+        path: "/user-info/:id",
+        element: <UserInfo />,
       },
       {
         path: "/orders",

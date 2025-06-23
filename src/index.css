@@ -6,9 +6,9 @@
 @theme {
   --font-primary: "Poppins", sans-serif;
   --font-secondary: "Plus Jakarta Sans", sans-serif;
-  --color-primary: #3ec65d;
+  --color-primary: #7c7afa;
   --color-dark: #232323;
-  --color-text-white: #FFF;
+  --color-text-white: #fff;
   /* custom breakpoints */
   --breakpoint-3xs: 375px; /* For small phones */
   --breakpoint-2xs: 390px; /* For medium phones */
