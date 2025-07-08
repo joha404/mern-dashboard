@@ -3,9 +3,9 @@ import Select from "react-select";
 import { useController } from "react-hook-form";
 
 function CategoryDropdown({ control, categories }) {
-  useEffect(() => {
-    console.log(categories);
-  }, []);
+  // useEffect(() => {
+  //   console.log(categories);
+  // }, []);
   const {
     field: { onChange, value, ref },
   } = useController({

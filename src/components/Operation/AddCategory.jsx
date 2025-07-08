@@ -116,7 +116,9 @@ function AddCategory({ onClose, refreshCategories }) {
             type="submit"
             isSubmitting={isSubmitting || loading}
             text={"Add Category"}
-          />
+          >
+            Add New
+          </PrimaryButton>
         </form>
       </motion.div>
 

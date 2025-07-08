@@ -24,7 +24,6 @@ export const AddNewProduct = async (data) => {
       withCredentials: true,
       // no manual content-type header here!
     });
-    console.log(data);
     return res;
   } catch (error) {
     console.log("Failed to Creating Category", error.response?.data || error);
