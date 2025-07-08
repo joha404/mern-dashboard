@@ -51,6 +51,7 @@ function AddProduct({ refreshProduct, onClose }) {
       const formData = new FormData();
 
       formData.append("name", data.name);
+      formData.append("discount", data.discount);
       formData.append("description", data.description);
       formData.append("oldPrice", data.oldPrice);
       formData.append("price", data.price);
@@ -121,6 +122,12 @@ function AddProduct({ refreshProduct, onClose }) {
           {...register("price")}
           className="w-full p-2 border border-gray-300 rounded-lg"
         />
+        <input
+          type="number"
+          placeholder="Discount"
+          {...register("discount")}
+          className="w-full p-2 border border-gray-300 rounded-lg"
+        />
 
         <select
           {...register("stock")}
@@ -139,7 +146,10 @@ function AddProduct({ refreshProduct, onClose }) {
           type="submit"
           isSubmitting={isSubmitting || loading}
           text="Add Product"
-        />
+        >
+          {" "}
+          Add New Product
+        </PrimaryButton>
       </form>
 
       <AnimatePresence>

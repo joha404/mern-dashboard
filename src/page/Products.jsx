@@ -124,8 +124,10 @@ const Products = () => {
               customWidth="[200px]"
               // isSubmitting={isLoading}
               text={"Add New"}
-              onClik={addProductModalOpen}
-            />
+              onClick={addProductModalOpen}
+            >
+              Add New Product{" "}
+            </PrimaryButton>
           </div>
         </div>
       </div>
@@ -212,8 +214,11 @@ const Products = () => {
                     customWidth="[200px]"
                     isSubmitting={isLoading}
                     text={"Delete"}
-                    onClik={handleDeleteConfirm}
-                  />
+                    onClick={() => handleDeleteConfirm()}
+                  >
+                    {" "}
+                    Delete
+                  </PrimaryButton>
                 </div>
               </div>
             </motion.div>

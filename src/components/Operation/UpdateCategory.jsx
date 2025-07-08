@@ -118,7 +118,9 @@ function UpdateCategory({ item, onClose, refreshCategories }) {
             type="submit"
             isSubmitting={isSubmitting || isLoading}
             text="Save Changes"
-          />
+          >
+            Update Category{" "}
+          </PrimaryButton>
         </form>
       </motion.div>
 

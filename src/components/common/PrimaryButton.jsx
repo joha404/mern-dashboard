@@ -20,7 +20,7 @@ const PrimaryButton = ({
         type={type}
         disabled={isSubmitting}
         onClick={onClick}
-        className={`w-full min-w-[100px] py-3 px-4 rounded-lg
+        className={`w-full cursor-pointer min-w-[100px] py-3 px-4 rounded-lg
            bg-gradient-to-r from-primary to-[#4745d5] text-white hover:from-primary-hover hover:to-primary 
            font-medium shadow-lg hover:shadow-black/30 flex items-center justify-center ${
              isSubmitting ? "opacity-80 cursor-not-allowed" : ""

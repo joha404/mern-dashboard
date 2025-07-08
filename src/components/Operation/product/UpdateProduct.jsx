@@ -24,6 +24,7 @@ function UpdateProduct({ item, refreshProduct, onClose }) {
   } = useForm({
     defaultValues: {
       name: "",
+      discount: "",
       description: "",
       oldPrice: "",
       price: "",
@@ -36,6 +37,7 @@ function UpdateProduct({ item, refreshProduct, onClose }) {
     if (item) {
       reset({
         name: item.name || "",
+        discount: item.discount || "",
         description: item.description || "",
         oldPrice: item.oldPrice || "",
         price: item.price || "",
@@ -73,6 +75,7 @@ function UpdateProduct({ item, refreshProduct, onClose }) {
       const formData = new FormData();
       formData.append("id", item._id);
       formData.append("name", data.name);
+      formData.append("discount", data.discount);
       formData.append("description", data.description);
       formData.append("oldPrice", data.oldPrice);
       formData.append("price", data.price);
@@ -136,6 +139,12 @@ function UpdateProduct({ item, refreshProduct, onClose }) {
           {...register("price")}
           className="w-full p-2 border border-gray-300 rounded-lg"
         />
+        <input
+          type="number"
+          placeholder="Discount"
+          {...register("discount")}
+          className="w-full p-2 border border-gray-300 rounded-lg"
+        />
 
         <select
           {...register("stock")}
@@ -153,7 +162,9 @@ function UpdateProduct({ item, refreshProduct, onClose }) {
           type="submit"
           isSubmitting={isSubmitting || loading}
           text="Update Product"
-        />
+        >
+          Update Product
+        </PrimaryButton>
       </form>
 
       <AnimatePresence>

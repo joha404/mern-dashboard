@@ -110,18 +110,23 @@ const Category = () => {
             customWidth="[200px]"
             isSubmitting={isLoading}
             text={"Search"}
-            onClik={handleSearch}
-          />
+            onClick={handleSearch}
+          >
+            {" "}
+            Search
+          </PrimaryButton>
         </form>
 
         <div className="w-full max-w-sm">
           <div className="flex  mr-4 justify-end border-gray-300">
             <PrimaryButton
               customWidth="[200px]"
-              // isSubmitting={isLoading}
+              isSubmitting={isLoading}
               text={"Add New"}
-              onClik={addCategoryModalOpen}
-            />
+              onClick={addCategoryModalOpen}
+            >
+              Add New{" "}
+            </PrimaryButton>
           </div>
         </div>
       </div>
@@ -208,8 +213,10 @@ const Category = () => {
                     customWidth="[200px]"
                     isSubmitting={isLoading}
                     text={"Delete"}
-                    onClik={handleDeleteConfirm}
-                  />
+                    onClick={handleDeleteConfirm}
+                  >
+                    Delete{" "}
+                  </PrimaryButton>
                 </div>
               </div>
             </motion.div>
