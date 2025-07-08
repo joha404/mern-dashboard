@@ -18,21 +18,22 @@ A powerful and responsive admin dashboard for managing your E-commerce platform.
 ## 🛠️ Tech Stack
 
 ### Frontend:
-- React.js / Vue.js (your actual stack)
-- Tailwind CSS / Bootstrap
+- React.js 
+- Tailwind CSS 
 - Axios
-- Redux / Pinia / Context API
+- Redux
+- Redux-toolkit
+- Context Api
 
 ### Backend:
 - Node.js with Express
-- MongoDB / MySQL
-- Mongoose / Sequelize
+- MongoDB
+- Mongoose
+- Passport Js
 - JWT Authentication
 
 ### Others:
-- Cloudinary / Firebase (for image uploads)
+- Cloudinary
 - Framer Motion (for animations)
-- React Router / Vue Router
-
-## 📁 Folder Structure (Example)
+- React Router 
 
