@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/api/v1";
+const BASE_URL = "https://ecommerce-backend-q3ag.onrender.com/api/v1";
 import axios from "axios";
 
 export const getAllCategory = async () => {

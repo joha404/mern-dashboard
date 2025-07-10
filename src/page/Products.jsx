@@ -115,7 +115,9 @@ const Products = () => {
             // isSubmitting={isLoading}
             text={"Search"}
             // onClik={handleSearch}
-          />
+          >
+            Search{" "}
+          </PrimaryButton>
         </form>
 
         <div className="w-full max-w-sm">

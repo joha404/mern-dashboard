@@ -5,6 +5,7 @@ import { GoTrash } from "react-icons/go";
 import { FaRegEye } from "react-icons/fa6";
 import PrimaryButton from "@/components/common/PrimaryButton";
 import { useNavigate } from "react-router-dom";
+import ProductSkeleton from "./ProductSkeleton";
 
 function GetAllProducs({ allProducts, onUpdate, onDelete }) {
   const [loading, setLoading] = useState(true);
@@ -63,43 +64,7 @@ function GetAllProducs({ allProducts, onUpdate, onDelete }) {
 
             <tbody className="text-gray-600">
               {loading ? (
-                Array(5)
-                  .fill(0)
-                  .map((_, i) => (
-                    <tr
-                      key={i}
-                      className="hover:bg-gray-50 border-b sm:table-row grid grid-cols-1 sm:grid-cols-none sm:text-center text-left px-4 py-3 sm:p-0"
-                    >
-                      <td className="py-2 sm:p-4">
-                        <div className="w-20 h-20 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="h-4 w-24 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="h-4 w-16 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="h-4 w-16 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="h-4 w-10 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="h-4 w-20 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="h-4 w-24 bg-gray-300 rounded animate-pulse mx-auto"></div>
-                      </td>
-                      <td className="py-2 sm:p-4">
-                        <div className="flex justify-center gap-3">
-                          <div className="w-6 h-6 bg-gray-300 rounded-full animate-pulse"></div>
-                          <div className="w-6 h-6 bg-gray-300 rounded-full animate-pulse"></div>
-                          <div className="w-6 h-6 bg-gray-300 rounded-full animate-pulse"></div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                <ProductSkeleton count={5} />
               ) : currentProducts.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="text-center py-6 text-gray-500">
@@ -186,8 +151,11 @@ function GetAllProducs({ allProducts, onUpdate, onDelete }) {
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
               text="Prev"
-              className="px-3 py-1 text-sm border rounded disabled:opacity-50"
-            />
+              className=""
+            >
+              {" "}
+              Prev
+            </PrimaryButton>
             {[...Array(totalPages)].map((_, i) => (
               <button
                 key={i}
@@ -205,8 +173,10 @@ function GetAllProducs({ allProducts, onUpdate, onDelete }) {
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
               text="Next"
-              className="px-3 py-1 text-sm border rounded disabled:opacity-50"
-            />
+              className=""
+            >
+              Next{" "}
+            </PrimaryButton>
           </div>
         </div>
       )}
