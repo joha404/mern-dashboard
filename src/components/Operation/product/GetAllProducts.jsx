@@ -12,7 +12,7 @@ function GetAllProducs({ allProducts, onUpdate, onDelete }) {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 5;
+  const productsPerPage = 10;
 
   useEffect(() => {
     const timer = setTimeout(() => {
